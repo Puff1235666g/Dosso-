@@ -1,0 +1,29 @@
+import Database from 'better-sqlite3';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import logger from './logger.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const dbFile = join(__dirname, '../../../data/dosso.db');
+
+const db = new Database(dbFile);
+db.pragma('journal_mode = WAL');
+
+db.exec(`
+CREATE TABLE IF NOT EXISTS characters (
+    id            INTEGER PRIMARY KEY,
+    name          TEXT NOT NULL,
+    name_alt      TEXT,
+    image_large   TEXT,
+    image_medium  TEXT,
+    description   TEXT,
+    gender        TEXT,
+    dateOfBirth   TEXT,
+    age           INTEGER,
+    blood_type    TEXT,
+    favorites     INTEGER DEFAULT 0,
+    series        TEXT,
+    updated_at    DATETIME DEFAULT CURRENT_TIMESTAMP
+)`);
+
+export default db;
