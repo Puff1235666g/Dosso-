@@ -1,0 +1,12 @@
+import syncCharacters from './jobs/syncChars.js';
+import logger from './lib/logger.js';
+
+(async () => {
+  try {
+    await syncCharacters();
+    process.exit(0);
+  } catch (e) {
+    logger.error(e);
+    process.exit(1);
+  }
+})();
